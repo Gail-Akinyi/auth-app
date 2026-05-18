@@ -180,18 +180,34 @@
     <a class="navbar-brand-custom" href="/">Auth<span>App</span></a>
     <div class="d-flex align-items-center gap-2">
         @auth
-            <a href="{{ route('profile.show') }}" class="nav-user">
-                <div class="nav-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
-                {{ Auth::user()->name }}
-            </a>
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                @csrf
-                <button class="btn-logout">Logout</button>
-            </form>
-        @else
-            <a href="{{ route('login') }}" class="nav-btn nav-btn-outline">Login</a>
-            <a href="{{ route('register') }}" class="nav-btn nav-btn-primary">Register</a>
-        @endauth
+    <a href="{{ route('posts.index') }}"
+       style="font-size:0.875rem;color:#374151;text-decoration:none;font-weight:500;
+              padding:0.4rem 0.75rem;border-radius:8px;transition:all 0.2s;"
+       onmouseover="this.style.background='#f3f4f6'"
+       onmouseout="this.style.background='transparent'">
+        Posts
+    </a>
+    @if(Auth::user()->isAdmin())
+    <a href="{{ route('categories.index') }}"
+       style="font-size:0.875rem;color:#374151;text-decoration:none;font-weight:500;
+              padding:0.4rem 0.75rem;border-radius:8px;transition:all 0.2s;"
+       onmouseover="this.style.background='#f3f4f6'"
+       onmouseout="this.style.background='transparent'">
+        Categories
+    </a>
+    @endif
+    <a href="{{ route('profile.show') }}" class="nav-user">
+        <div class="nav-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
+        {{ Auth::user()->name }}
+    </a>
+    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+        @csrf
+        <button class="btn-logout">Logout</button>
+    </form>
+@else
+    <a href="{{ route('login') }}" class="nav-btn nav-btn-outline">Login</a>
+    <a href="{{ route('register') }}" class="nav-btn nav-btn-primary">Register</a>
+@endauth
     </div>
 </nav>
 

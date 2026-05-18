@@ -39,4 +39,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     return $this->hasMany(ActivityLog::class)->latest()->limit(10);
 }
+public function posts()
+{
+    return $this->hasMany(Post::class);
+}
 }

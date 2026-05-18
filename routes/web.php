@@ -50,4 +50,23 @@ Route::middleware('guest')->group(function () {
     Route::get('/reset-password/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showForm'])->name('password.reset');
     Route::post('/reset-password', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
 });
+
+// Posts
+Route::middleware(['auth'])->group(function () {
+    Route::get('/posts', [App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
+    Route::get('/posts/my-posts', [App\Http\Controllers\PostController::class, 'myPosts'])->name('posts.my');
+    Route::get('/posts/create', [App\Http\Controllers\PostController::class, 'create'])->name('posts.create');
+    Route::post('/posts', [App\Http\Controllers\PostController::class, 'store'])->name('posts.store');
+    Route::get('/posts/{post}', [App\Http\Controllers\PostController::class, 'show'])->name('posts.show');
+    Route::get('/posts/{post}/edit', [App\Http\Controllers\PostController::class, 'edit'])->name('posts.edit');
+    Route::put('/posts/{post}', [App\Http\Controllers\PostController::class, 'update'])->name('posts.update');
+    Route::delete('/posts/{post}', [App\Http\Controllers\PostController::class, 'destroy'])->name('posts.destroy');
+});
+
+// Categories (admin only)
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories.index');
+    Route::post('/categories', [App\Http\Controllers\CategoryController::class, 'store'])->name('categories.store');
+    Route::delete('/categories/{category}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('categories.destroy');
+});
 ?>
