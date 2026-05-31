@@ -30,4 +30,23 @@ class Post extends Model
     {
         return Str::slug($title) . '-' . uniqid();
     }
+    public function comments()
+{
+    return $this->hasMany(Comment::class)->latest();
+}
+
+public function likes()
+{
+    return $this->hasMany(PostLike::class);
+}
+
+public function tags()
+{
+    return $this->belongsToMany(PostTag::class, 'post_tag', 'post_id', 'post_tag_id');
+}
+
+public function isLikedBy($user)
+{
+    return $this->likes()->where('user_id', $user->id)->exists();
+}
 }

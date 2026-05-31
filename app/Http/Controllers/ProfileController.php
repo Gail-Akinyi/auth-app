@@ -50,4 +50,21 @@ class ProfileController extends Controller
 
         return back()->with('success', 'Password changed successfully.');
     }
+    public function updateAvatar(Request $request)
+{
+    $request->validate([
+        'avatar' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+    ]);
+
+    $user = Auth::user();
+
+    if ($user->avatar) {
+        \Storage::disk('public')->delete($user->avatar);
+    }
+
+    $path = $request->file('avatar')->store('avatars', 'public');
+    $user->update(['avatar' => $path]);
+
+    return back()->with('success', 'Profile photo updated!');
+}
 }

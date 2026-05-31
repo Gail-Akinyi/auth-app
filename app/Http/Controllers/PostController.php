@@ -28,7 +28,7 @@ class PostController extends Controller
             });
         }
 
-        $posts      = $query->paginate(6)->withQueryString();
+        $posts      = $query->paginate(6)->appends($request->query());
         $categories = Category::all();
 
         return view('posts.index', compact('posts', 'categories'));
@@ -37,7 +37,9 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('posts.create', compact('categories'));
+    $tags = \App\Models\PostTag::all();
+    return view('posts.create', compact('categories', 'tags'));
+
     }
 
     public function store(Request $request)
@@ -60,6 +62,10 @@ class PostController extends Controller
             'status'       => $request->status,
             'published_at' => $request->status === 'published' ? now() : null,
         ]);
+        // Attach tags
+if ($request->filled('tags')) {
+    $post->tags()->sync($request->tags);
+}
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully!');
     }
@@ -75,8 +81,9 @@ class PostController extends Controller
             abort(403);
         }
 
-        $categories = Category::all();
-        return view('posts.edit', compact('post', 'categories'));
+         $categories = Category::all();
+    $tags = \App\Models\PostTag::all();
+    return view('posts.edit', compact('post', 'categories', 'tags'));
     }
 
     public function update(Request $request, Post $post)
@@ -101,6 +108,9 @@ class PostController extends Controller
             'status'       => $request->status,
             'published_at' => $request->status === 'published' && !$post->published_at ? now() : $post->published_at,
         ]);
+        if ($request->filled('tags')) {
+    $post->tags()->sync($request->tags);
+}
 
         return redirect()->route('posts.index')->with('success', 'Post updated successfully!');
     }

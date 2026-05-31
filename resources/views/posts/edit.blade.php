@@ -51,6 +51,19 @@
                         <textarea name="body" class="form-control" rows="12" required>{{ old('body', $post->body) }}</textarea>
                     </div>
                     <div class="mb-4">
+                        <div class="mb-3">
+    <label class="form-label">Tags</label>
+    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+        @foreach($tags as $tag)
+        <label style="display:flex;align-items:center;gap:0.3rem;padding:0.3rem 0.75rem;
+                      background:#f3f4f6;border-radius:20px;cursor:pointer;font-size:0.875rem;">
+            <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                   {{ $post->tags->contains($tag->id) ? 'checked' : '' }}>
+            {{ $tag->name }}
+        </label>
+        @endforeach
+    </div>
+</div>
                         <label class="form-label">Status</label>
                         <select name="status" class="form-select">
                             <option value="draft" {{ $post->status === 'draft' ? 'selected' : '' }}>Draft</option>

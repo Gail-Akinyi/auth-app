@@ -53,6 +53,22 @@
                                   placeholder="Write your post content here..." required>{{ old('body') }}</textarea>
                     </div>
                     <div class="mb-4">
+                        <div class="mb-3">
+    <label class="form-label">Tags</label>
+    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+        @foreach($tags as $tag)
+        <label style="display:flex;align-items:center;gap:0.3rem;padding:0.3rem 0.75rem;
+                      background:#f3f4f6;border-radius:20px;cursor:pointer;font-size:0.875rem;">
+            <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                   {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }}>
+            {{ $tag->name }}
+        </label>
+        @endforeach
+    </div>
+    @if($tags->isEmpty())
+    <small style="color:#9ca3af;">No tags yet. Ask an admin to create some.</small>
+    @endif
+</div>
                         <label class="form-label">Status</label>
                         <select name="status" class="form-select">
                             <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>

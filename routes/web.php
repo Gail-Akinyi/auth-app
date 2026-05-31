@@ -69,4 +69,49 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/categories', [App\Http\Controllers\CategoryController::class, 'store'])->name('categories.store');
     Route::delete('/categories/{category}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('categories.destroy');
 });
+
+// Contact
+Route::get('/contact', [App\Http\Controllers\ContactController::class, 'show'])->name('contact.show');
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
+
+// Admin contact messages
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/messages', [App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
+    Route::patch('/admin/messages/{message}/read', [App\Http\Controllers\ContactController::class, 'markRead'])->name('contact.read');
+    Route::delete('/admin/messages/{message}', [App\Http\Controllers\ContactController::class, 'destroy'])->name('contact.destroy');
+});
+
+// Newsletter
+Route::post('/newsletter/subscribe', [App\Http\Controllers\NewsletterController::class, 'store'])->name('newsletter.store');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/subscribers', [App\Http\Controllers\NewsletterController::class, 'index'])->name('newsletter.index');
+    Route::delete('/admin/subscribers/{newsletterSubscriber}', [App\Http\Controllers\NewsletterController::class, 'destroy'])->name('newsletter.destroy');
+    Route::get('/admin/subscribers/export', [App\Http\Controllers\NewsletterController::class, 'export'])->name('newsletter.export');
+});
+
+// Comments
+Route::middleware('auth')->group(function () {
+    Route::post('/posts/{post}/comments', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy'])->name('comments.destroy');
+});
+
+// Likes
+Route::middleware('auth')->post('/posts/{post}/like', [App\Http\Controllers\PostLikeController::class, 'toggle'])->name('posts.like');
+
+// Tags
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/tags', [App\Http\Controllers\PostTagController::class, 'index'])->name('tags.index');
+    Route::post('/tags', [App\Http\Controllers\PostTagController::class, 'store'])->name('tags.store');
+    Route::delete('/tags/{postTag}', [App\Http\Controllers\PostTagController::class, 'destroy'])->name('tags.destroy');
+});
+
+// Notifications
+Route::middleware('auth')->group(function () {
+    Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::delete('/notifications/{notification}', [App\Http\Controllers\NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::post('/notifications/clear', [App\Http\Controllers\NotificationController::class, 'clearAll'])->name('notifications.clear');
+});
+
+// Avatar
+Route::middleware('auth')->post('/profile/avatar', [App\Http\Controllers\ProfileController::class, 'updateAvatar'])->name('profile.avatar');
 ?>

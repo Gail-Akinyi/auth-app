@@ -195,6 +195,39 @@
        onmouseout="this.style.background='transparent'">
         Categories
     </a>
+    <a href="{{ route('tags.index') }}"
+   style="font-size:0.875rem;color:#374151;text-decoration:none;font-weight:500;
+          padding:0.4rem 0.75rem;border-radius:8px;transition:all 0.2s;"
+   onmouseover="this.style.background='#f3f4f6'"
+   onmouseout="this.style.background='transparent'">
+    Tags
+</a>
+    </a>
+
+    <a href="{{ route('posts.my') }}"
+       style="font-size:0.875rem;color:#374151;text-decoration:none;font-weight:500;
+              padding:0.4rem 0.75rem;border-radius:8px;transition:all 0.2s;"
+       onmouseover="this.style.background='#f3f4f6'"
+       onmouseout="this.style.background='transparent'">
+        My Posts
+    </a>
+
+    <a href="{{ route('notifications.index') }}"
+   style="position:relative;padding:0.4rem 0.75rem;border-radius:8px;
+          text-decoration:none;font-size:1.1rem;transition:all 0.2s;"
+   onmouseover="this.style.background='#f3f4f6'"
+   onmouseout="this.style.background='transparent'">
+    &#128276;
+    @if(Auth::user()->unreadNotifications()->count() > 0)
+    <span style="position:absolute;top:2px;right:2px;width:16px;height:16px;
+                 background:#dc2626;border-radius:50%;font-size:0.65rem;
+                 color:white;display:flex;align-items:center;justify-content:center;
+                 font-weight:700;">
+        {{ Auth::user()->unreadNotifications()->count() }}
+    </span>
+    @endif
+</a>
+    <a href="{{ route('profile.show') }}" class="nav-user">
     @endif
     <a href="{{ route('profile.show') }}" class="nav-user">
         <div class="nav-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
@@ -205,9 +238,16 @@
         <button class="btn-logout">Logout</button>
     </form>
 @else
+    <a href="{{ route('contact.show') }}"
+       style="font-size:0.875rem;color:#374151;text-decoration:none;font-weight:500;
+              padding:0.4rem 0.75rem;border-radius:8px;transition:all 0.2s;"
+       onmouseover="this.style.background='#f3f4f6'"
+       onmouseout="this.style.background='transparent'">
+        Contact
+    </a>
     <a href="{{ route('login') }}" class="nav-btn nav-btn-outline">Login</a>
     <a href="{{ route('register') }}" class="nav-btn nav-btn-primary">Register</a>
-@endauth
+@endauth 
     </div>
 </nav>
 

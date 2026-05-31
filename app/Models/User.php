@@ -16,6 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'role',
+        'avatar',
     ];
 
     protected $hidden = [
@@ -42,5 +43,31 @@ class User extends Authenticatable implements MustVerifyEmail
 public function posts()
 {
     return $this->hasMany(Post::class);
+}
+public function comments()
+{
+    return $this->hasMany(Comment::class);
+}
+
+public function likes()
+{
+    return $this->hasMany(PostLike::class);
+}
+
+public function notifications()
+{
+    return $this->hasMany(Notification::class)->latest();
+}
+
+public function unreadNotifications()
+{
+    return $this->hasMany(Notification::class)->where('read', false);
+}
+
+public function getAvatarUrlAttribute()
+{
+    return $this->avatar
+        ? asset('storage/' . $this->avatar)
+        : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=4f46e5&color=fff';
 }
 }

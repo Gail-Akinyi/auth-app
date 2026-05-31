@@ -30,6 +30,23 @@
                     </div>
                 @endif
 
+                {{-- Avatar --}}
+<div class="text-center mb-4">
+    <img src="{{ Auth::user()->avatar_url }}"
+         style="width:80px;height:80px;border-radius:50%;object-fit:cover;
+                border:3px solid #e5e7eb;margin-bottom:1rem;">
+    <form action="{{ route('profile.avatar') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <input type="file" name="avatar" id="avatar" accept="image/*"
+               style="display:none;" onchange="this.form.submit()">
+        <label for="avatar"
+               style="font-size:0.8rem;padding:0.3rem 0.75rem;border-radius:8px;
+                      border:1px solid #e5e7eb;color:#374151;cursor:pointer;font-weight:500;">
+            Change Photo
+        </label>
+    </form>
+</div>
+
                 <form action="{{ route('profile.update') }}" method="POST">
                     @csrf
                     @method('PUT')
