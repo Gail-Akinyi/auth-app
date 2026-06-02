@@ -52,7 +52,7 @@ class PostController extends Controller
             'excerpt'     => 'nullable|string|max:500',
         ]);
 
-        Post::create([
+        $post = Post::create([
             'user_id'      => Auth::id(),
             'category_id'  => $request->category_id,
             'title'        => $request->title,
