@@ -119,4 +119,24 @@
     </div>
 
 </div>
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card-custom">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 style="font-weight:700;color:#111827;margin:0;">Two-Factor Authentication</h6>
+                    <small style="color:#6b7280;">
+                        Status:
+                        <span style="font-weight:600;color:{{ Auth::user()->two_factor_enabled ? '#065f46' : '#dc2626' }};">
+                            {{ Auth::user()->two_factor_enabled ? 'Enabled' : 'Disabled' }}
+                        </span>
+                    </small>
+                </div>
+                <a href="{{ route('2fa.show') }}" class="btn-primary-custom">
+                    Manage 2FA
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

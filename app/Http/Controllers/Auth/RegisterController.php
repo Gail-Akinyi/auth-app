@@ -31,6 +31,13 @@ class RegisterController extends Controller
             'role'     => $request->role,
         ]);
 
+
+// Send welcome email
+\Illuminate\Support\Facades\Mail::send('emails.welcome', ['user' => $user], function($mail) use ($user) {
+    $mail->to($user->email, $user->name)
+         ->subject('Welcome to AuthApp!');
+});
+
         Auth::login($user);
 
         return redirect()->route('dashboard');

@@ -17,6 +17,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'role',
         'avatar',
+        'banned',
+        'two_factor_secret',
+        'two_factor_enabled',
+        
     ];
 
     protected $hidden = [
@@ -31,6 +35,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'password'          => 'hashed',
         ];
     }
+
+    public function isBanned(): bool
+{
+    return $this->banned === true;
+}
 
     public function isAdmin(): bool
     {

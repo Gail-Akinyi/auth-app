@@ -23,17 +23,24 @@ class LoginController extends Controller
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials, $request->boolean('remember'))) {
-        $request->session()->regenerate();
+    $request->session()->regenerate();
 
-        \App\Models\ActivityLog::create([
-            'user_id'     => Auth::id(),
-            'action'      => 'login',
-            'description' => 'User logged in',
-            'ip_address'  => $request->ip(),
+    if (Auth::user()->isBanned()) {
+        Auth::logout();
+        return back()->withErrors([
+            'email' => 'Your account has been suspended. Please contact support.',
         ]);
-
-        return redirect()->route('dashboard');
     }
+
+    \App\Models\ActivityLog::create([
+        'user_id'     => Auth::id(),
+        'action'      => 'login',
+        'description' => 'User logged in',
+        'ip_address'  => $request->ip(),
+    ]);
+
+    return redirect()->route('dashboard');
+}
 
     return back()->withErrors([
         'email' => 'These credentials do not match our records.',

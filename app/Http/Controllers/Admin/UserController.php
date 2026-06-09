@@ -85,4 +85,19 @@ class UserController extends Controller
 
     return response()->stream($callback, 200, $headers);
 }
+
+public function ban(User $user)
+{
+    if ($user->id === auth()->id()) {
+        return redirect()->route('dashboard')->with('error', 'You cannot ban yourself.');
+    }
+    $user->update(['banned' => true]);
+    return redirect()->route('dashboard')->with('success', $user->name . ' has been banned.');
+}
+
+public function unban(User $user)
+{
+    $user->update(['banned' => false]);
+    return redirect()->route('dashboard')->with('success', $user->name . ' has been unbanned.');
+}
 }

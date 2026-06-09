@@ -195,6 +195,13 @@
        onmouseout="this.style.background='transparent'">
         Categories
     </a>
+    <a href="{{ route('admin.charts') }}"
+   style="font-size:0.875rem;color:#374151;text-decoration:none;font-weight:500;
+          padding:0.4rem 0.75rem;border-radius:8px;transition:all 0.2s;"
+   onmouseover="this.style.background='#f3f4f6'"
+   onmouseout="this.style.background='transparent'">
+    Analytics
+</a>
     <a href="{{ route('tags.index') }}"
    style="font-size:0.875rem;color:#374151;text-decoration:none;font-weight:500;
           padding:0.4rem 0.75rem;border-radius:8px;transition:all 0.2s;"

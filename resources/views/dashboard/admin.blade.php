@@ -109,25 +109,56 @@
                         </td>
                         <td style="color:#6b7280;">{{ $u->created_at->format('M d, Y') }}</td>
                         <td>
-                            <div class="d-flex gap-2">
-                                <a href="{{ route('admin.users.edit', $u->id) }}"
-                                   style="font-size:0.8rem;padding:0.3rem 0.75rem;border-radius:8px;
-                                          border:1px solid #e5e7eb;color:#374151;text-decoration:none;
-                                          font-weight:500;">Edit</a>
-                                @if($u->id !== auth()->id())
-                                <form action="{{ route('admin.users.destroy', $u->id) }}"
-                                      method="POST" class="d-inline"
-                                      onsubmit="return confirm('Delete this user?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button style="font-size:0.8rem;padding:0.3rem 0.75rem;
-                                                   border-radius:8px;border:1px solid #fca5a5;
-                                                   color:#dc2626;background:transparent;
-                                                   font-weight:500;cursor:pointer;">Delete</button>
-                                </form>
-                                @endif
-                            </div>
-                        </td>
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="{{ route('admin.users.edit', $u->id) }}"
+           style="font-size:0.8rem;padding:0.3rem 0.75rem;border-radius:8px;
+                  border:1px solid #e5e7eb;color:#374151;text-decoration:none;font-weight:500;">
+            Edit
+        </a>
+        @if($u->id !== auth()->id())
+            @if($u->banned)
+            <form action="{{ route('admin.users.unban', $u->id) }}" method="POST" class="d-inline">
+                @csrf
+                @method('PATCH')
+                <button style="font-size:0.8rem;padding:0.3rem 0.75rem;border-radius:8px;
+                               border:1px solid #6ee7b7;color:#065f46;background:transparent;
+                               font-weight:500;cursor:pointer;">Unban</button>
+            </form>
+            @else
+            <form action="{{ route('admin.users.ban', $u->id) }}" method="POST" class="d-inline"
+                  onsubmit="return confirm('Ban this user?')">
+                @csrf
+                @method('PATCH')
+                <button style="font-size:0.8rem;padding:0.3rem 0.75rem;border-radius:8px;
+                               border:1px solid #fbbf24;color:#92400e;background:transparent;
+                               font-weight:500;cursor:pointer;">Ban</button>
+            </form>
+            @endif
+            <form action="{{ route('admin.users.destroy', $u->id) }}" method="POST" class="d-inline"
+                  onsubmit="return confirm('Delete this user?')">
+                @csrf
+                @method('DELETE')
+                <button style="font-size:0.8rem;padding:0.3rem 0.75rem;border-radius:8px;
+                               border:1px solid #fca5a5;color:#dc2626;background:transparent;
+                               font-weight:500;cursor:pointer;">Delete</button>
+            </form>
+        @endif
+    </div>
+</td>
+
+<td>
+    <div style="display:flex;flex-direction:column;gap:0.3rem;">
+        <span class="badge-role {{ $u->role === 'admin' ? 'badge-admin' : 'badge-user' }}">
+            {{ ucfirst($u->role) }}
+        </span>
+        @if($u->banned)
+        <span style="font-size:0.7rem;padding:0.2rem 0.5rem;border-radius:20px;
+                     background:#fef2f2;color:#dc2626;font-weight:600;">
+            Banned
+        </span>
+        @endif
+    </div>
+</td>
                     </tr>
                     @empty
                     <tr>
